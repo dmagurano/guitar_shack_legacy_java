@@ -29,7 +29,6 @@ public class StockMonitorTest {
     @Test
     public void shouldTriggerAlert_whenQuantitySoldIsHigh() {
         Product product = new Product(811, 100, 2);
-        SalesTotal total = new SalesTotal(2000);
 
         Mockito.when(productRepository.getProduct(811)).thenReturn(product);
         Mockito.when(salesRate.getSalesRate(811)).thenReturn(100);
