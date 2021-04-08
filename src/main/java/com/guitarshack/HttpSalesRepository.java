@@ -2,11 +2,7 @@ package com.guitarshack;
 
 import com.google.gson.Gson;
 
-import java.io.IOException;
 import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -23,11 +19,11 @@ public class HttpSalesRepository implements SalesRepository {
     }
 
     @Override
-    public SalesTotal getSalesTotal(int productId) {
+    public SalesTotal getSalesTotal(int productId, int previousDays) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(Calendar.getInstance().getTime());
         Date endDate = calendar.getTime();
-        calendar.add(Calendar.DATE, -30);
+        calendar.add(Calendar.DATE, -previousDays);
         Date startDate = calendar.getTime();
         DateFormat format = new SimpleDateFormat("M/d/yyyy");
         Map<String, Object> params1 = new HashMap<>() {{

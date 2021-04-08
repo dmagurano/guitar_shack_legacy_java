@@ -11,7 +11,7 @@ public class Program {
                         ". Only " + product.getStock() + " remaining in stock");
     },
                                                            new HttpProductRepository(webClient),
-                                                           new HttpSalesRepository(webClient)
+                                                           new RecentSalesRate(new HttpSalesRepository(webClient))
     );
 
     public static void main(String[] args) {

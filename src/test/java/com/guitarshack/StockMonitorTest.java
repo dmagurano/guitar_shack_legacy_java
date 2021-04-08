@@ -10,17 +10,16 @@ public class StockMonitorTest {
 
     private final Alert alert = Mockito.mock(Alert.class);
     private final ProductRepository productRepository = Mockito.mock(ProductRepository.class);
-    private final SalesRepository salesRepository = Mockito.mock(SalesRepository.class);
+    private final SalesRate salesRate = Mockito.mock(SalesRate.class);
 
-    private final StockMonitor stockMonitor = new StockMonitor(alert, productRepository, salesRepository);
+    private final StockMonitor stockMonitor = new StockMonitor(alert, productRepository, salesRate);
 
     @Test
     public void shouldNotTriggerAlert_whenQuantitySoldIsLow() {
         Product product = new Product(811, 100, 2);
-        SalesTotal total = new SalesTotal(0);
 
         Mockito.when(productRepository.getProduct(811)).thenReturn(product);
-        Mockito.when(salesRepository.getSalesTotal(811)).thenReturn(total);
+        Mockito.when(salesRate.getSalesRate(811)).thenReturn(1);
 
         stockMonitor.productSold(811, 1);
 
@@ -33,7 +32,7 @@ public class StockMonitorTest {
         SalesTotal total = new SalesTotal(2000);
 
         Mockito.when(productRepository.getProduct(811)).thenReturn(product);
-        Mockito.when(salesRepository.getSalesTotal(811)).thenReturn(total);
+        Mockito.when(salesRate.getSalesRate(811)).thenReturn(100);
 
         stockMonitor.productSold(811, 1);
 
