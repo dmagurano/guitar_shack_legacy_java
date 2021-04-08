@@ -16,6 +16,12 @@ import java.util.Map;
 
 public class HttpSalesRepository implements SalesRepository {
 
+    private WebClient webClient;
+
+    public HttpSalesRepository(WebClient webClient) {
+        this.webClient = webClient;
+    }
+
     @Override
     public SalesTotal getSalesTotal(int productId) {
         Calendar calendar = Calendar.getInstance();
@@ -36,18 +42,8 @@ public class HttpSalesRepository implements SalesRepository {
             paramString1 += key + "=" + params1.get(key).toString() + "&";
         }
 
-        HttpRequest request1 = HttpRequest
-                .newBuilder(URI.create("https://gjtvhjg8e9.execute-api.us-east-2.amazonaws.com/default/sales" + paramString1))
-                .build();
-        String result1 = "";
-        HttpClient httpClient1 = HttpClient.newHttpClient();
-        HttpResponse<String> response1 = null;
-        try {
-            response1 = httpClient1.send(request1, HttpResponse.BodyHandlers.ofString());
-            result1 = response1.body();
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
-        }
+        URI uri = URI.create("https://gjtvhjg8e9.execute-api.us-east-2.amazonaws.com/default/sales" + paramString1);
+        String result1 = webClient.getResponse(uri);
 
         return new Gson().fromJson(result1, SalesTotal.class);
     }

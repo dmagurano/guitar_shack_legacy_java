@@ -2,15 +2,17 @@ package com.guitarshack;
 
 import com.google.gson.Gson;
 
-import java.io.IOException;
 import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
 import java.util.HashMap;
 import java.util.Map;
 
 public class HttpProductRepository implements ProductRepository {
+
+    private WebClient webClient;
+
+    public HttpProductRepository(WebClient webClient) {
+        this.webClient = webClient;
+    }
 
     @Override
     public Product getProduct(int productId) {
@@ -24,20 +26,10 @@ public class HttpProductRepository implements ProductRepository {
             paramString += key + "=" + params.get(key).toString() + "&";
         }
         URI uri = URI.create(baseURL + paramString);
-        HttpRequest request = HttpRequest
-                .newBuilder(uri)
-                .build();
-        String result = "";
 
-        HttpClient httpClient = HttpClient.newHttpClient();
-        HttpResponse<String> response = null;
-        try {
-            response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-            result = response.body();
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
-        }
+        String result = webClient.getResponse(uri);
 
         return new Gson().fromJson(result, Product.class);
     }
+
 }
