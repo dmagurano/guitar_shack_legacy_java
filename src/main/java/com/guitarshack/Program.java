@@ -7,11 +7,11 @@ public class Program {
         System.out.println(
                 "You need to reorder product " + product.getId() +
                         ". Only " + product.getStock() + " remaining in stock");
-    });
+    }, new ProductRepository(), new SalesRepository());
 
     public static void main(String[] args) {
-        int productId = Integer.parseInt(args[0]);
-        int quantity = Integer.parseInt(args[1]);
+        int productId = 811;
+        int quantity = 52;
 
         monitor.productSold(productId, quantity);
     }
