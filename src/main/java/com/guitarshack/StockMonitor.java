@@ -14,10 +14,11 @@ public class StockMonitor {
 
     public void productSold(int productId, int quantity) {
         Product product = productRepository.getProduct(productId);
-        SalesTotal total = salesRepository.getSalesTotal(product);
+        SalesTotal total = salesRepository.getSalesTotal(productId);
 
-        if (product.getStock() - quantity <= (int) ((double) (total.getTotal() / 30) * product.getLeadTime()))
+        if (product.getStock() - quantity <= (int) ((double) (total.getTotal() / 30) * product.getLeadTime())) {
             alert.send(product);
-    }
+        }
 
+    }
 }
